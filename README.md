@@ -34,3 +34,10 @@ Prototipo inicial. La próxima entrega implementará el protocolo de estado y la
 ## Licencia
 
 MIT. Consulta `LICENSE`.
+
+
+## Captura de interfaz
+
+![MSA-ChipSafe](docs/screenshots/chipsafe.png)
+
+La imagen muestra la vista de identidad, integridad y consola de auditoría.
