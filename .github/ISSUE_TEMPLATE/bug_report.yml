@@ -1,0 +1,20 @@
+name: "Informe de error"
+description: "Defecto reproducible con evidencia anonimizada"
+title: "[bug] "
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Versión, navegador, placa o SO
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pasos mínimos y resultados
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Logs o fotos reales sin datos privados

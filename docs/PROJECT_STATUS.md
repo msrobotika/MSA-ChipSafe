@@ -1,0 +1,19 @@
+# MSA-ChipSafe · Estado técnico
+
+**Revisión:** 2026-10-22 · **Estado:** Prototipo inicial de auditoría de integridad ESP32.
+
+## Evidencias
+
+- Código y README versionados en main.
+- Licencia disponible en archivo LICENSE.
+- **CI en main:** no se detectó un workflow de integración continua en el inventario.
+- **Imágenes:** [`docs/screenshots/chipsafe.png`](../docs/screenshots/chipsafe.png).
+- **Procedencia:** La imagen existente es una vista previa; no se ha acreditado una captura de hardware real.
+
+## Límites y acciones siguientes
+
+Funciones de backup y restauración requieren comprobación física por modelo. La pantalla de muestra no acredita firmware validado.
+
+Restauración/escritura de flash requiere consentimiento explícito, verificación de imagen y aviso de pérdida de datos.
+
+Para considerarlo validado: pruebas de ejecución y de hardware reproducibles, release versionada y evidencia de capturas obtenidas con el firmware o aplicación real. No confundir simulaciones, vistas previas o imágenes de ejemplo con ensayos de campo.

@@ -1,5 +1,10 @@
 # MSA-ChipSafe
 
+> **Ficha del proyecto · MS ROBOTIKA**  
+> **Estado:** Prototipo inicial de auditoría de integridad ESP32 · **Licencia:** [LICENSE](LICENSE)  
+> [Estado técnico y evidencias](docs/PROJECT_STATUS.md) · [Abrir una incidencia](https://github.com/msrobotika/MSA-ChipSafe/issues/new/choose)  
+> **Límite:** Funciones de backup y restauración requieren comprobación física por modelo. La pantalla de muestra no acredita firmware validado.
+
 Laboratorio portátil de integridad para placas ESP32. La pantalla muestra quién es la placa, qué memoria tiene y si su firmware coincide con una copia de confianza.
 
 ## Primera versión
