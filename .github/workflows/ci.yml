@@ -1,0 +1,24 @@
+name: ChipSafe · Python host checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  host-syntax:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate host program syntax
+        run: |
+          python -m py_compile host/chipsafe.py
+          test -f docs/PROTOCOL.md
+          test -f docs/screenshots/chipsafe.png
+      - name: Test boundary
+        run: echo 'Syntax/static integrity only. No chip, flash operation or physical device tested.'
