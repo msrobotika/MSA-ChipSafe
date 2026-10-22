@@ -1,0 +1,54 @@
+name: Calidad documental · MS ROBOTIKA
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'README.md'
+      - 'docs/**'
+      - 'SECURITY.md'
+      - '.github/workflows/repository-quality.yml'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  link-integrity:
+    name: Enlaces internos y documentación
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Comprobar enlaces Markdown locales
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from urllib.parse import unquote
+          import re
+
+          root=Path.cwd().resolve()
+          docs=[p for p in (Path("README.md"),Path("docs/PROJECT_STATUS.md")) if p.is_file()]
+          assert docs, "No hay README ni ficha de estado"
+          issues=[]
+          count=0
+          for doc in docs:
+              text=doc.read_text(encoding="utf-8-sig")
+              for match in re.finditer(r"!?(?:\[[^\]\n]*\])\(([^)]+)\)",text):
+                  destination=match.group(1).strip().split()[0].strip("<>")
+                  if destination.startswith(("https://","http://","mailto:","#","data:")):
+                      continue
+                  relative=unquote(destination.split("#",1)[0].split("?",1)[0])
+                  if not relative: continue
+                  candidate=(root/doc.parent/relative).resolve()
+                  count+=1
+                  if not candidate.is_relative_to(root) or not candidate.exists():
+                      issues.append(f"{doc}: enlace local inexistente: {destination}")
+          if issues:
+              print("\n".join(issues))
+              raise SystemExit(f"{len(issues)} enlace(s) roto(s)")
+          print(f"Correcto: {len(docs)} documento(s), {count} enlace(s) internos existentes.")
+          print("Esta CI comprueba documentación; NO certifica funcionalidades de aplicación ni hardware.")
+          PY
