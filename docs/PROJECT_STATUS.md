@@ -1,12 +1,12 @@
 # MSA-ChipSafe · Estado técnico
 
-**Revisión:** 2026-10-22 · **Estado:** Prototipo inicial de auditoría de integridad ESP32.
+**Revisión:** 2026-10-23 · **Estado:** Prototipo inicial de auditoría de integridad ESP32.
 
 ## Evidencias
 
 - Código y README versionados en main.
 - Licencia disponible en archivo LICENSE.
-- **CI en main:** no se detectó un workflow de integración continua en el inventario.
+- **CI en main:** disponibles [workflow de pruebas](../.github/workflows/ci.yml) y [workflow de calidad documental](../.github/workflows/repository-quality.yml). No equivalen a ensayos con hardware real.
 - **Imágenes:** [`docs/screenshots/chipsafe.png`](../docs/screenshots/chipsafe.png).
 - **Procedencia:** La imagen existente es una vista previa; no se ha acreditado una captura de hardware real.
 
