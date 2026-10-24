@@ -1,48 +1,50 @@
-# MSA-ChipSafe
+[![MS ROBOTIKA · ChipSafe](https://raw.githubusercontent.com/msrobotika/msrobotika/main/assets/projects/msa-chipsafe.svg)](https://github.com/msrobotika/msrobotika/blob/main/PROJECTS.md)
 
-> **Ficha del proyecto · MS ROBOTIKA**  
-> **Estado:** Prototipo inicial de auditoría de integridad ESP32 · **Licencia:** [LICENSE](LICENSE)  
-> [Estado técnico y evidencias](docs/PROJECT_STATUS.md) · [Abrir una incidencia](https://github.com/msrobotika/MSA-ChipSafe/issues/new/choose)  
-> **Límite:** Funciones de backup y restauración requieren comprobación física por modelo. La pantalla de muestra no acredita firmware validado.
+[MS ROBOTIKA](https://github.com/msrobotika/msrobotika/blob/main/PROJECTS.md) · [AB Suite](https://github.com/msrobotika/AB-Suite-Core-arquitectura-de-integraci-n) · [Contribuir / Contribute](CONTRIBUTING.md) · [Seguridad / Security](SECURITY.md)
 
-Laboratorio portátil de integridad para placas ESP32. La pantalla muestra quién es la placa, qué memoria tiene y si su firmware coincide con una copia de confianza.
+# ChipSafe
 
-## Primera versión
+**Identifica una placa ESP32 y documenta sus evidencias desde el ordenador.**
 
-- Identificación del chip, MAC, flash y modo de arranque.
-- Copia de seguridad de solo lectura con SHA-256.
-- Comparación contra una imagen conocida.
-- Registro de consola y evidencias en microSD.
-- Interfaz de pantalla: **Identidad**, **Flash**, **Integridad**, **Consola** y **Evidencias**.
-- Restauración protegida con confirmación explícita y comprobación posterior.
+**Identify an ESP32 board and document its evidence from your computer.**
 
-Esta versión se desarrolla **sin carcasa**. La placa se puede usar sobre una mesa o en protoboard; el diseño mecánico se añadirá más adelante como módulo independiente.
+[Empezar / Start](#empezar--start) · [Código de la herramienta / Tool source](host/chipsafe.py) · [Estado / Status](docs/PROJECT_STATUS.md) · [Licencia / Licence](LICENSE)
 
-## Seguridad y límites
+![Vista previa de la interfaz ChipSafe](docs/screenshots/chipsafe.png)
 
-ChipSafe está pensado para placas propias o autorizadas. No intenta atacar redes ni extraer secretos de terceros. Las operaciones destructivas están separadas de la auditoría y requieren confirmación doble.
+*Vista previa de interfaz; no es una captura de firmware validado en una placa. / Interface preview, not a validated on-device firmware capture.*
 
-La placa ESP32 clásica puede actuar como pantalla/controlador por UART. Para una herramienta autónoma que lea USB directamente hará falta una ESP32-S3 con USB-OTG o un adaptador USB-host; el modo PC + USB-UART se mantiene como alternativa compatible.
+## Disponible ahora · Available now
 
-## Estructura
+| Operación / Operation | Implementación / Implementation |
+| --- | --- |
+| Enumerar puertos / List ports | USB-UART mediante pyserial |
+| Identificar chip / Identify chip | Consulta de lectura mediante esptool |
+| Revisar un archivo / Inspect a file | Tamaño y SHA-256 de una copia existente / Size and SHA-256 of an existing file |
+| Guardar informe / Save report | JSON local con fecha, puertos y resultado / Local timestamped JSON |
 
-```text
-firmware/       Interfaz y protocolo para la pantalla
-host/            Utilidades de auditoría para Windows/Linux
-docs/            Protocolo, montaje y modelo de amenazas
+El ejecutable Python actual no lee una copia completa de flash, no restaura firmware y no escribe en la placa. La pantalla autónoma, microSD y comparación guiada de imágenes pertenecen a la hoja de ruta. / The current Python tool does not perform full flash backup, restore or device writes. Standalone display, microSD and guided image comparison remain roadmap items.
+
+## Empezar · Start
+
+Requiere Python y las dependencias declaradas. / Requires Python and the declared dependencies.
+
+```sh
+python -m pip install -r host/requirements.txt
+python host/chipsafe.py --help
+python host/chipsafe.py --hash copia-existente.bin --out informe.json
 ```
 
-## Estado
+Sustituye el archivo por una copia que ya tengas. Para consultar una placa propia, elige su puerto: / Replace the file with an existing copy. To query your own board, choose its port:
 
-Prototipo inicial. La próxima entrega implementará el protocolo de estado y la vista **Identidad** antes de añadir restauración.
+```sh
+python host/chipsafe.py --device COM4 --out placa.json
+```
 
-## Licencia
+Comprueba `returncode` y el resultado de identificación del informe. Que se genere JSON no garantiza que la consulta a la placa haya funcionado. / Check the identification result and its `returncode`; a saved JSON file alone does not prove a successful device query.
 
-MIT. Consulta `LICENSE`.
+## Desarrollo · Development
 
+Prototipo inicial: las pruebas de CI son estáticas y no acreditan compatibilidad física por modelo. Consulta [protocolo](docs/PROTOCOL.md), [hoja de ruta](docs/ROADMAP.md) y [estado verificable](docs/PROJECT_STATUS.md).
 
-## Captura de interfaz
-
-![MSA-ChipSafe](docs/screenshots/chipsafe.png)
-
-La imagen muestra la vista de identidad, integridad y consola de auditoría.
+Initial prototype. Static CI does not establish physical compatibility. Original code under [MIT](LICENSE).
