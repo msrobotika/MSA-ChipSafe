@@ -1,6 +1,6 @@
 # MSA-ChipSafe · Estado técnico
 
-**Revisión:** 2026-10-23 · **Estado:** Prototipo inicial de auditoría de integridad ESP32.
+**Revisión:** 2026-10-24 · **Estado:** Prototipo inicial de auditoría de integridad ESP32.
 
 ## Evidencias
 
@@ -12,7 +12,7 @@
 
 ## Límites y acciones siguientes
 
-Funciones de backup y restauración requieren comprobación física por modelo. La pantalla de muestra no acredita firmware validado.
+La herramienta `host/chipsafe.py` enumera puertos, consulta la identidad mediante esptool y calcula SHA-256 de una copia existente. No implementa lectura completa de flash, restauración ni escritura. Backup, pantalla autónoma y microSD siguen en la hoja de ruta. La pantalla de muestra no acredita firmware validado.
 
 Restauración/escritura de flash requiere consentimiento explícito, verificación de imagen y aviso de pérdida de datos.
 
